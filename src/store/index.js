@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import api from '@/api';
+import getPayments from '../mocks/getPayments';
 
 Vue.use(Vuex);
 
@@ -41,6 +42,8 @@ export default new Vuex.Store({
         // eslint-disable-next-line no-alert
         alert(e?.message);
       } finally {
+        const { data } = await getPayments();
+        commit('setState', { data });
         commit('setState', { isLoading: false });
       }
     },

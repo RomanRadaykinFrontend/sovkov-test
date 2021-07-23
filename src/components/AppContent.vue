@@ -1,6 +1,6 @@
 <template>
   <main class="container mt-md-5">
-
+    <button @click=" show ">show data</button>
     <!-- Loading spinner -->
     <ui-spinner v-if="isLoading" />
 
@@ -72,6 +72,9 @@ export default {
     ...mapActions([
       'load',
     ]),
+    show() {
+      console.log(this.data);
+    },
   },
 };
 </script>

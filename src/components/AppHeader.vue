@@ -10,5 +10,6 @@
 export default {
 
   name: 'AppHeader',
+
 };
 </script>
