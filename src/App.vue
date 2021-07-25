@@ -2,9 +2,6 @@
   <div class="app">
     <app-header />
     <app-content/>
-    <button @click="show">
-      show
-    </button>
   </div>
 </template>
 
@@ -18,7 +15,6 @@ export default {
   methods: {
     async show() {
       const res = await getPayments();
-      console.log(res);
     },
   },
 };

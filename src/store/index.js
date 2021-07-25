@@ -40,7 +40,8 @@ export default new Vuex.Store({
         }
       } catch (e) {
         // eslint-disable-next-line no-alert
-        alert(e?.message);
+        // alert(e?.message);
+        console.log(e.message);
       } finally {
         const { data } = await getPayments();
         commit('setState', { data });
