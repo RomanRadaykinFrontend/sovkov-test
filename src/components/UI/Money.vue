@@ -27,11 +27,18 @@ export default {
       valueInput: '',
     };
   },
+  mounted() {
+    if (localStorage.getItem('valueInput')) {
+      this.valueInput = localStorage.getItem('valueInput');
+      this.$emit('input', this.valueInput !== '' ? +this.valueInput : undefined);
+    }
+  },
   methods: {
     correctInputValue(e) {
       this.valueInput = checkingInputValue(e.target.value);
       this.$emit('input', this.valueInput !== '' ? +this.valueInput : undefined);
       this.valueInput = getCorrectMoney(this.valueInput);
+      localStorage.setItem('valueInput', this.valueInput);
     },
   },
 };

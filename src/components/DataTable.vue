@@ -73,13 +73,21 @@ export default {
       const sortedRows = this.moneyFilter === 0 || this.moneyFilter === undefined
         ? [...this.rows]
         : this.rows.filter((row) => row.money <= this.moneyFilter);
-      return sortedRows.slice((this.page - 1) * this.pageSize, this.pageSize * this.page);
+      const result = sortedRows.slice((this.page - 1) * this.pageSize, this.pageSize * this.page);
+      localStorage.setItem('sortData', JSON.stringify(result));
+      return result;
     },
   },
   methods: {
     getMoneyFilter(value) {
       this.moneyFilter = value;
     },
+  },
+  mounted() {
+    if (localStorage.getItem('valueInput')) {
+      const moneyFilterFromStorage = localStorage.getItem('valueInput').split(' ').join('');
+      this.moneyFilter = +moneyFilterFromStorage;
+    }
   },
 };
 </script>

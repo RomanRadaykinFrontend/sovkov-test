@@ -62,7 +62,12 @@ export default {
   },
 
   created() {
-    this.load();
+    if (localStorage.getItem('data')) {
+      this.setState(JSON.parse(localStorage.getItem('data')));
+      this.setState({ isCached: true });
+    } else {
+      this.load();
+    }
   },
 
   methods: {

@@ -37,6 +37,7 @@ export default new Vuex.Store({
 
         if (Array.isArray(data)) {
           commit('setState', { data });
+          localStorage.setItem('data', JSON.stringify({ data }));
         }
       } catch (e) {
         // eslint-disable-next-line no-alert
