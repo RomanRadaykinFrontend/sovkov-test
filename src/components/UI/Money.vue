@@ -9,7 +9,9 @@
 </template>
 
 <script>
-import { checkingInputValue, getCorrectMoney } from '../../helpers/functions';
+import {
+  checkingInputValue, getCorrectMoney, getFromLocalStorage, setToLocalStorage,
+} from '../../helpers/functions';
 
 export default {
 
@@ -28,17 +30,17 @@ export default {
     };
   },
   mounted() {
-    if (localStorage.getItem('valueInput')) {
-      this.valueInput = localStorage.getItem('valueInput');
-      this.$emit('input', this.valueInput !== '' ? +this.valueInput : undefined);
+    if (getFromLocalStorage('valueInput')) {
+      this.valueInput = getFromLocalStorage('valueInput');
+      this.valueInput = getCorrectMoney(this.valueInput);
     }
   },
   methods: {
     correctInputValue(e) {
       this.valueInput = checkingInputValue(e.target.value);
       this.$emit('input', this.valueInput !== '' ? +this.valueInput : undefined);
+      setToLocalStorage('valueInput', this.valueInput);
       this.valueInput = getCorrectMoney(this.valueInput);
-      localStorage.setItem('valueInput', this.valueInput);
     },
   },
 };

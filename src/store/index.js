@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import api from '@/api';
 import getPayments from '../mocks/getPayments';
+import { setToLocalStorage } from '../helpers/functions';
 
 Vue.use(Vuex);
 
@@ -37,7 +38,7 @@ export default new Vuex.Store({
 
         if (Array.isArray(data)) {
           commit('setState', { data });
-          localStorage.setItem('data', JSON.stringify({ data }));
+          setToLocalStorage('data', { data });
         }
       } catch (e) {
         // eslint-disable-next-line no-alert

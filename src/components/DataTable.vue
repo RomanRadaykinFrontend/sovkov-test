@@ -41,6 +41,10 @@
 </template>
 
 <script>
+import {
+  getFromLocalStorage, setToLocalStorage,
+} from '../helpers/functions';
+
 export default {
 
   name: 'DataTable',
@@ -64,18 +68,24 @@ export default {
 
   computed: {
     pageCount() {
+      if (this.getFilterRows.length <= this.pageSize) {
+        return 1;
+      }
       return Math.ceil(this.rows.length / this.pageSize);
     },
     getGridStyle() {
       return this.columns.map((col) => col.width).join(' ');
     },
-    getPaginateRows() {
+    getFilterRows() {
       const sortedRows = this.moneyFilter === 0 || this.moneyFilter === undefined
         ? [...this.rows]
-        : this.rows.filter((row) => row.money <= this.moneyFilter);
-      const result = sortedRows.slice((this.page - 1) * this.pageSize, this.pageSize * this.page);
-      localStorage.setItem('sortData', JSON.stringify(result));
-      return result;
+        : this.rows.filter((row) => row.money <= +this.moneyFilter);
+
+      setToLocalStorage('sortData', sortedRows);
+      return sortedRows;
+    },
+    getPaginateRows() {
+      return this.getFilterRows.slice((this.page - 1) * this.pageSize, this.pageSize * this.page);
     },
   },
   methods: {
@@ -83,10 +93,21 @@ export default {
       this.moneyFilter = value;
     },
   },
+
+  watch: {
+    getFilterRows() {
+      if (this.getFilterRows.length < this.pageSize) {
+        this.page = 1;
+      }
+    },
+  },
+
   mounted() {
-    if (localStorage.getItem('valueInput')) {
-      const moneyFilterFromStorage = localStorage.getItem('valueInput').split(' ').join('');
-      this.moneyFilter = +moneyFilterFromStorage;
+    if (getFromLocalStorage('valueInput')) {
+      this.moneyFilter = getFromLocalStorage('valueInput');
+    }
+    if (getFromLocalStorage('page')) {
+      this.page = getFromLocalStorage('page');
     }
   },
 };

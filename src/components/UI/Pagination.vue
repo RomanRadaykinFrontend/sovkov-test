@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { getFromLocalStorage, setToLocalStorage } from '../../helpers/functions';
+
 export default {
 
   name: 'UiPagination',
@@ -65,13 +67,13 @@ export default {
         return;
       }
 
-      localStorage.setItem('page', page);
+      setToLocalStorage('page', page);
       this.$emit('input', page);
     },
   },
   mounted() {
-    if (localStorage.getItem('page')) {
-      this.$emit('input', +localStorage.getItem('page'));
+    if (getFromLocalStorage('page')) {
+      this.$emit('input', getFromLocalStorage('page'));
     }
   },
 };

@@ -23,6 +23,7 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from 'vuex';
+import { getFromLocalStorage } from '../helpers/functions';
 
 export default {
 
@@ -62,8 +63,8 @@ export default {
   },
 
   created() {
-    if (localStorage.getItem('data')) {
-      this.setState(JSON.parse(localStorage.getItem('data')));
+    if (getFromLocalStorage('data')) {
+      this.setState(getFromLocalStorage('data'));
       this.setState({ isCached: true });
     } else {
       this.load();

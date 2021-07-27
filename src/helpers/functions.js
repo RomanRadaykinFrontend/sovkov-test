@@ -26,3 +26,17 @@ export const checkingInputValue = (value) => {
   }
   return arr.join('');
 };
+
+export const setToLocalStorage = (title, value) => {
+  switch (typeof value) {
+    case 'object':
+      return localStorage.setItem(title, JSON.stringify(value));
+    default:
+      return localStorage.setItem(title, value);
+  }
+};
+
+export const getFromLocalStorage = (title) => {
+  const res = JSON.parse(localStorage.getItem(title));
+  return res;
+};
