@@ -31,7 +31,7 @@ export default new Vuex.Store({
   actions: {
     async load({ commit }, params = {}) {
       commit('setState', { isLoading: true });
-
+      commit('setState', { isCached: false });
       try {
         const { data } = await api.getPayments(params);
 
@@ -43,9 +43,8 @@ export default new Vuex.Store({
         // alert(e?.message);
         console.log(e.message);
       } finally {
-        const { data } = await getPayments();
-        commit('setState', { data });
         commit('setState', { isLoading: false });
+        commit('setState', { isCached: true });
       }
     },
   },

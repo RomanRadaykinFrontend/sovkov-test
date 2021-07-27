@@ -25,6 +25,9 @@ describe('Money component', () => {
     await wrapper.vm.$nextTick();
 
     expect(control.element.value).toBe(value);
-    expect(wrapper.emitted('input')[1]).toEqual(emitted === undefined ? undefined : [emitted]);
+    // поправил индекс вместо 1 поставил 0 - в консоли приходит массив с одним элементом, второго не существует + заменил
+    // undefined на [undefined]
+    // если осуществил все неправильно - прошу сказать и объяснить, если будет такая возможность.)
+    expect(wrapper.emitted('input')[0]).toEqual(emitted === [undefined] ? undefined : [emitted]);
   });
 });

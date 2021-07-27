@@ -9,22 +9,20 @@
           <p>You can clear cache and load data again.</p>
         </template>
         <template #footer>
-          <ui-button type="primary">
+          <ui-button type="primary" @click="clearCache" >
             Clear cache
           </ui-button>
         </template>
       </ui-alert>
 
-      <data-table
-        :rows="data"
-        :columns="columns"
+      <data-table :rows="data" :columns="columns"
       />
     </template>
   </main>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapMutations } from 'vuex';
 
 export default {
 
@@ -71,6 +69,14 @@ export default {
     ...mapActions([
       'load',
     ]),
+    ...mapMutations([
+      'setState',
+    ]),
+    clearCache() {
+      this.setState({ data: [] });
+      localStorage.clear();
+      this.load();
+    },
   },
 };
 </script>

@@ -5,10 +5,11 @@
     class="ui-money"
     @input="correctInputValue"
   />
+
 </template>
 
 <script>
-import { getCorrectMoney } from '../../helpers/functions';
+import { checkingInputValue, getCorrectMoney } from '../../helpers/functions';
 
 export default {
 
@@ -28,8 +29,8 @@ export default {
   },
   methods: {
     correctInputValue(e) {
-      this.valueInput = this.valueInput.replace(',', '.');
-      this.valueInput = this.valueInput.replace(/[^0-9.{1,}]/g, '');
+      this.valueInput = checkingInputValue(e.target.value);
+      this.$emit('input', this.valueInput !== '' ? +this.valueInput : undefined);
       this.valueInput = getCorrectMoney(this.valueInput);
     },
   },

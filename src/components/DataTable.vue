@@ -1,7 +1,10 @@
 <template>
   <div class="data-table">
     <div class="data-table__filter">
-      <ui-money v-model="moneyFilter"/>
+      <ui-money
+        v-model="moneyFilter"
+        @input="getMoneyFilter($event)"
+      />
     </div>
 
     <!-- Your component code here -->
@@ -20,23 +23,18 @@
       class="full-screen-data-table__header-row"
       :style="{'grid-template-columns':  `${getGridStyle}`}"
     >
-      <data-table-cell
-        v-for="col in columns"
-        :key="col.label">
+      <data-table-cell v-for="col in columns" :key="col.label">
         {{ col.label }}
       </data-table-cell>
     </div>
-    <data-table-row
-      class="full-screen-data-table"
-      v-for=" row, index in getPaginateRows "
+    <data-table-row class="full-screen-data-table"
+      v-for="(row, index) in getPaginateRows"
       :row="row"
       :gridStyle="getGridStyle"
       :key="index"/>
 
     <div class="data-table__paginator">
-      <ui-pagination
-        v-model="page"
-        :pages="pageCount"
+      <ui-pagination v-model="page" :pages="pageCount"
       />
     </div>
   </div>
@@ -72,13 +70,26 @@ export default {
       return this.columns.map((col) => col.width).join(' ');
     },
     getPaginateRows() {
-      return this.rows.slice((this.page - 1) * this.pageSize, this.pageSize * this.page);
+      const sortedRows = this.moneyFilter === 0 || this.moneyFilter === undefined
+        ? [...this.rows]
+        : this.rows.filter((row) => row.money <= this.moneyFilter);
+      return sortedRows.slice((this.page - 1) * this.pageSize, this.pageSize * this.page);
+    },
+  },
+  methods: {
+    getMoneyFilter(value) {
+      this.moneyFilter = value;
     },
   },
 };
 </script>
 
 <style scoped lang="sass">
+.data-table
+  &__filter
+    display: flex
+    justify-content: flex-end
+    margin-bottom: 15px
 .full-screen-data-table
   &__header-row
     display: grid

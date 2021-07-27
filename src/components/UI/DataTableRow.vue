@@ -22,9 +22,6 @@ export default {
       require: true,
     },
   },
-  mounted() {
-    console.log(this.row);
-  },
   computed: {
     getRowStyle() {
       return {

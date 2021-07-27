@@ -65,8 +65,14 @@ export default {
         return;
       }
 
+      localStorage.setItem('page', page);
       this.$emit('input', page);
     },
+  },
+  mounted() {
+    if (localStorage.getItem('page')) {
+      this.$emit('input', +localStorage.getItem('page'));
+    }
   },
 };
 </script>
